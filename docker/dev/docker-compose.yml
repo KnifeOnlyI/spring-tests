@@ -1,0 +1,10 @@
+services:
+    spring-tests-database:
+        container_name: spring-tests-database
+        image: postgres:16.3-alpine3.20
+        ports:
+            - "${SPRING_TESTS_API_DATABASE_PORT}:5432"
+        environment:
+            POSTGRES_DB: ${SPRING_TESTS_API_DATABASE_NAME}
+            POSTGRES_USER: ${SPRING_TESTS_API_DATABASE_USERNAME}
+            POSTGRES_PASSWORD: ${SPRING_TESTS_API_DATABASE_PASSWORD}

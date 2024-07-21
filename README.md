@@ -2,6 +2,13 @@
 
 ## Authorization Server
 
+### Users
+
+- user / 1234
+- admin / 1234
+
+### Authorization Code Flow
+
 Get an authorization code from the authorization server : 
 
 ```

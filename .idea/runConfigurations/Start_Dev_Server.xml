@@ -1,7 +1,13 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Start Dev Server" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="envFilePaths">
+      <option value="$PROJECT_DIR$/.dev.env" />
+    </option>
     <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
     <module name="spring-tests" />
+    <selectedOptions>
+      <option name="environmentVariables" />
+    </selectedOptions>
     <option name="SPRING_BOOT_MAIN_CLASS" value="fr.koi.tests.springtests.SpringTestsApplication" />
     <method v="2">
       <option name="Make" enabled="true" />

@@ -1,0 +1,5 @@
+id,name
+c11a030e-25f9-48b1-9521-455f5e3cfefb,create_article
+bd6713c7-a8fa-4a40-b4a9-1d2ec7c76290,edit_article
+fb5a9c2f-cf7b-4bd2-8d15-c8a44605b290,view_article
+33c7ad3c-0efd-4aa8-894d-20abeaa770c5,delete_article

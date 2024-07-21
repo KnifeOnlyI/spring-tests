@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create-user-table" author="knife">
+        <createTable tableName="app_user">
+            <column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="username" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="datetime" defaultValueComputed="current_datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
+
+        <createIndex tableName="app_user" indexName="idx_user_username">
+            <column name="username"/>
+        </createIndex>
+
+        <createIndex tableName="app_user" indexName="idx_user_created_at">
+            <column name="created_at"/>
+        </createIndex>
+
+        <createIndex tableName="app_user" indexName="idx_user_deleted_at">
+            <column name="deleted_at"/>
+        </createIndex>
+
+        <createTable tableName="role">
+            <column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="datetime" defaultValueComputed="current_datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
+
+        <createIndex tableName="role" indexName="idx_role_name">
+            <column name="name"/>
+        </createIndex>
+
+        <createIndex tableName="role" indexName="idx_role_created_at">
+            <column name="created_at"/>
+        </createIndex>
+
+        <createIndex tableName="role" indexName="idx_role_deleted_at">
+            <column name="deleted_at"/>
+        </createIndex>
+
+        <createTable tableName="app_group">
+            <column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="datetime" defaultValueComputed="current_datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
+
+        <createIndex tableName="app_group" indexName="idx_group_name">
+            <column name="name"/>
+        </createIndex>
+
+        <createIndex tableName="app_group" indexName="idx_group_created_at">
+            <column name="created_at"/>
+        </createIndex>
+
+        <createIndex tableName="app_group" indexName="idx_group_deleted_at">
+            <column name="deleted_at"/>
+        </createIndex>
+
+        <createTable tableName="group_role">
+            <column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="group_id" type="${uuid_type}">
+                <constraints nullable="false"
+                             unique="false"
+                             referencedTableName="app_group"
+                             referencedColumnNames="id"
+                             foreignKeyName="fk_group_role_group_id"/>
+            </column>
+            <column name="role_id" type="${uuid_type}">
+                <constraints nullable="false"
+                             unique="false"
+                             referencedTableName="role"
+                             referencedColumnNames="id"
+                             foreignKeyName="fk_group_role_role_id"/>
+            </column>
+            <column name="created_at" type="datetime" defaultValueComputed="current_datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
+
+        <createIndex tableName="group_role" indexName="idx_group_role_created_at">
+            <column name="created_at"/>
+        </createIndex>
+
+        <createIndex tableName="group_role" indexName="idx_group_role_deleted_at">
+            <column name="deleted_at"/>
+        </createIndex>
+
+        <createTable tableName="user_group">
+            <column name="id" type="${uuid_type}" defaultValueComputed="${uuid_function}">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_id" type="${uuid_type}">
+                <constraints nullable="false"
+                             unique="false"
+                             referencedTableName="app_user"
+                             referencedColumnNames="id"
+                             foreignKeyName="fk_user_group_user_id"/>
+            </column>
+            <column name="group_id" type="${uuid_type}">
+                <constraints nullable="false"
+                             unique="false"
+                             referencedTableName="app_group"
+                             referencedColumnNames="id"
+                             foreignKeyName="fk_user_group_group_id"/>
+            </column>
+            <column name="created_at" type="datetime" defaultValueComputed="current_datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="deleted_at" type="datetime"/>
+        </createTable>
+
+        <createIndex tableName="user_group" indexName="idx_user_group_created_at">
+            <column name="created_at"/>
+        </createIndex>
+
+        <createIndex tableName="user_group" indexName="idx_user_group_deleted_at">
+            <column name="deleted_at"/>
+        </createIndex>
+
+        <addUniqueConstraint tableName="user_group" columnNames="user_id, group_id" constraintName="unique_user_group"/>
+
+        <loadData tableName="role" file="data/role.csv" relativeToChangelogFile="true"/>
+        <loadData tableName="app_group" file="data/group.csv" relativeToChangelogFile="true"/>
+        <loadData tableName="group_role" file="data/group_role.csv" relativeToChangelogFile="true"/>
+        <loadData tableName="app_user" file="data/user.csv" relativeToChangelogFile="true"/>
+        <loadData tableName="user_group" file="data/user_group.csv" relativeToChangelogFile="true"/>
+    </changeSet>
+</databaseChangeLog>
